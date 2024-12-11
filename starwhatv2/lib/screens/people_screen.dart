@@ -21,7 +21,9 @@ class _PeopleScreenState extends State<PeopleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(247, 244, 238, 255),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(230, 198, 152, 255),
         title: const Text('Lista de Personajes de StarWars'),
       ),
       body: FutureBuilder<PeopleResponse>(
@@ -50,6 +52,19 @@ class _PeopleScreenState extends State<PeopleScreen> {
     }
   }
 
+  String getGender(String genero) {
+    switch (genero) {
+      case "male":
+        return "Honbre";
+      case "female":
+        return "Mujer";
+      case "n/a":
+        return "Otro";
+      default:
+        return "Desconocido";
+    }
+  }
+
   Widget _buildPeopleList(PeopleResponse peopleResponse) {
     return GridView.count(
       crossAxisCount: 2,
@@ -59,6 +74,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
           return Container(
             margin: const EdgeInsets.only(bottom: 20),
             child: Card(
+              color: const Color.fromARGB(230, 238, 224, 255),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -80,13 +96,26 @@ class _PeopleScreenState extends State<PeopleScreen> {
                         ),
                         Expanded(
                           child: Container(
-                            margin: EdgeInsets.only(right: 20),
+                            margin: const EdgeInsets.only(right: 20),
                             child: Text(
-                              peopleResponse.results![index].gender!,
-                              textAlign: TextAlign.end,
-                            ),
+                                getGender(
+                                    peopleResponse.results![index].gender!),
+                                textAlign: TextAlign.end),
                           ),
                         )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "${peopleResponse.results![index].mass!} Kg",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ],
                     ),
                   ),
