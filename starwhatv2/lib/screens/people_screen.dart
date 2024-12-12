@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:starwhat/models/people_response/people_response.dart';
 import 'package:http/http.dart' as http;
@@ -21,11 +23,19 @@ class _PeopleScreenState extends State<PeopleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(247, 244, 238, 255),
+      backgroundColor: const Color.fromARGB(255, 247, 244, 238),
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(230, 198, 152, 255),
-        title: const Text('Lista de Personajes de StarWars'),
-      ),
+          backgroundColor: const Color.fromARGB(255, 252, 232, 192),
+          title: Row(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(right: 10),
+                  child: Image.network(
+                      'https://cdn.freebiesupply.com/logos/large/2x/star-wars-logo-png-transparent.png',
+                      width: 100)),
+              const Text('Lista de Personajes')
+            ],
+          )),
       body: FutureBuilder<PeopleResponse>(
         future: peopleResponse,
         builder: (context, snapshot) {
@@ -55,7 +65,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
   String getGender(String genero) {
     switch (genero) {
       case "male":
-        return "Honbre";
+        return "Hombre";
       case "female":
         return "Mujer";
       case "n/a":
@@ -71,56 +81,62 @@ class _PeopleScreenState extends State<PeopleScreen> {
       children: List.generate(
         peopleResponse.results!.length,
         (index) {
-          return Container(
+          return Card(
             margin: const EdgeInsets.only(bottom: 20),
-            child: Card(
-              color: const Color.fromARGB(230, 238, 224, 255),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                    child: Image.network(
-                      'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
-                      fit: BoxFit.contain,
-                      width: double.infinity,
-                    ),
+            color: const Color.fromARGB(255, 243, 237, 223),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Expanded(
+                  child: Image.network(
+                    'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
+                    fit: BoxFit.contain,
+                    width: double.infinity,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Expanded(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(peopleResponse.results![index].name!,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 20),
                           child: Text(
-                            peopleResponse.results![index].name!,
-                          ),
+                              getGender(peopleResponse.results![index].gender!),
+                              textAlign: TextAlign.end),
                         ),
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 20),
-                            child: Text(
-                                getGender(
-                                    peopleResponse.results![index].gender!),
-                                textAlign: TextAlign.end),
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 10),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 10, right: 25),
                     child: Row(
                       children: [
                         Expanded(
                           child: Text(
                             "${peopleResponse.results![index].mass!} Kg",
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            "${peopleResponse.results![index].height!} cm",
+                            textAlign: TextAlign.end,
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
