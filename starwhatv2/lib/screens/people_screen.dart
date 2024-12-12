@@ -82,16 +82,23 @@ class _PeopleScreenState extends State<PeopleScreen> {
         peopleResponse.results!.length,
         (index) {
           return Card(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20, right: 10, left: 10),
             color: const Color.fromARGB(255, 243, 237, 223),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Expanded(
-                  child: Image.network(
-                    'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
-                    fit: BoxFit.contain,
+                Container(
+                  margin: const EdgeInsets.only(top: 10, left: 35, right: 35),
+                  child: SizedBox(
+                    height: 85,
                     width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Image.network(
+                        'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
+                        fit: BoxFit.fill,
+                      ),
+                    ),
                   ),
                 ),
                 Padding(
@@ -101,7 +108,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
                       Expanded(
                         child: Text(peopleResponse.results![index].name!,
                             style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
+                                fontWeight: FontWeight.bold, fontSize: 12)),
                       ),
                       Expanded(
                         child: Container(
