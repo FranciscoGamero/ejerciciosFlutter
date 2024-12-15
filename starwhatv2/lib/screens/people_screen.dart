@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:starwhat/models/people_response/people.dart';
 import 'package:starwhat/models/people_response/people_response.dart';
@@ -82,7 +81,8 @@ class _PeopleScreenState extends State<PeopleScreen> {
       children: List.generate(
         peopleResponse.results!.length,
         (index) {
-          return _buildPeopleItem(context, peopleResponse.results![index], index);
+          return _buildPeopleItem(
+              context, peopleResponse.results![index], index);
         },
       ),
     );
@@ -104,17 +104,22 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => PeopleDetailScreen(peopleItem: people),
-                    ),
+                        builder: (context) => PeopleDetailScreen(
+                              peopleItem: people,
+                              index: index,
+                            )),
                   );
                 },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: Image.network(
-                    'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                child: Hero(
+                    tag:
+                        'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Image.network(
+                        'https://starwars-visualguide.com/assets/img/characters/${index + 1}.jpg',
+                        fit: BoxFit.fill,
+                      ),
+                    )),
               ),
             ),
           ),
